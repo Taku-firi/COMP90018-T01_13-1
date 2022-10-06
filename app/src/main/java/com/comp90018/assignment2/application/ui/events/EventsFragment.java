@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,6 +36,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 //implements OnMapReadyCallback
 public class EventsFragment extends Fragment implements OnMapReadyCallback {
@@ -51,8 +53,8 @@ public class EventsFragment extends Fragment implements OnMapReadyCallback {
 
     private Location lastKnownLocation;
 
-    private final LatLng defaultLocation = new LatLng(-33.8523341, 151.2106085);
-//    private final LatLng defaultLocation = new LatLng(-37.7963,144.9614);
+//    private final LatLng defaultLocation = new LatLng(-33.8523341, 151.2106085);
+    private final LatLng defaultLocation = new LatLng(-37.7963,144.9614);
     private static final int DEFAULT_ZOOM = 15;
 
     private static final String KEY_CAMERA_POSITION = "camera_position";
@@ -60,7 +62,7 @@ public class EventsFragment extends Fragment implements OnMapReadyCallback {
 
     SupportMapFragment mapFragment;
     FusedLocationProviderClient client;
-
+    FloatingActionButton fab;
 //    private Double longitude,latitude;
 
 
@@ -83,6 +85,14 @@ public class EventsFragment extends Fragment implements OnMapReadyCallback {
         mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        fab=root.findViewById(R.id.floating_action_button);
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getActivity(),"Clicked",Toast.LENGTH_SHORT).show();
+            }
+        });
 
         return root;
     }
