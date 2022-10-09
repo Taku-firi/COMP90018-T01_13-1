@@ -3,6 +3,7 @@ package com.comp90018.assignment2.application.ui.events;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
@@ -38,8 +40,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-//implements OnMapReadyCallback
-public class EventsFragment extends Fragment implements OnMapReadyCallback {
+public class EventsFragment extends Fragment implements OnMapReadyCallback,GoogleMap.OnMyLocationButtonClickListener,GoogleMap.OnMyLocationClickListener{
 
     final String[] PERMISSIONS = new String[]{
             Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -55,7 +56,7 @@ public class EventsFragment extends Fragment implements OnMapReadyCallback {
 
 //    private final LatLng defaultLocation = new LatLng(-33.8523341, 151.2106085);
     private final LatLng defaultLocation = new LatLng(-37.7963,144.9614);
-    private static final int DEFAULT_ZOOM = 15;
+    private static final int DEFAULT_ZOOM = 16;
 
     private static final String KEY_CAMERA_POSITION = "camera_position";
     private static final String KEY_LOCATION = "location";
@@ -68,6 +69,8 @@ public class EventsFragment extends Fragment implements OnMapReadyCallback {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
+
         if (savedInstanceState != null){
             lastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION);
             cameraPosition = savedInstanceState.getParcelable(KEY_CAMERA_POSITION);
@@ -76,6 +79,7 @@ public class EventsFragment extends Fragment implements OnMapReadyCallback {
         eventsViewModel =
                 new ViewModelProvider(this).get(EventsViewModel.class);
         View root = inflater.inflate(R.layout.fragment_events, container, false);
+
 
         doCheckPermission();
 
@@ -106,14 +110,41 @@ public class EventsFragment extends Fragment implements OnMapReadyCallback {
         super.onSaveInstanceState(outState);
     }
 
+    @SuppressLint("MissingPermission")
     @Override
     public void onMapReady(GoogleMap googleMap){
         this.map = googleMap;
+        map.setOnMyLocationButtonClickListener(this);
+        map.setOnMyLocationClickListener(this);
+        enableMyLocation();
         getCurrentLocation();
 
         LatLng location = new LatLng(-37.7963,144.9614);
         map.addMarker(new MarkerOptions().position(location).title("Activity 1"));
 
+    }
+
+    @SuppressLint("MissingPermission")
+    private void enableMyLocation(){
+        if (doCheckPermission()) {
+            map.setMyLocationEnabled(true);
+            return;
+        }
+    }
+
+    @Override
+    public void onMyLocationClick(@NonNull Location location) {
+//        Toast.makeText(getActivity(), "Current location:\n" + location, Toast.LENGTH_LONG)
+//                .show();
+    }
+
+    @Override
+    public boolean onMyLocationButtonClick() {
+//        Toast.makeText(getActivity(), "MyLocation button clicked", Toast.LENGTH_SHORT)
+//                .show();
+        // Return false so that we don't consume the event and the default behavior still occurs
+        // (the camera animates to the user's current position).
+        return false;
     }
 
     public boolean doCheckPermission(){
@@ -137,7 +168,7 @@ public class EventsFragment extends Fragment implements OnMapReadyCallback {
                         LatLng latLng = new LatLng(lastKnownLocation.getLatitude(),lastKnownLocation.getLongitude());
                         map.moveCamera(CameraUpdateFactory.newLatLngZoom(
                                latLng,DEFAULT_ZOOM));
-                        map.addMarker(new MarkerOptions().position(latLng).title("I'm here").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+//                        map.addMarker(new MarkerOptions().position(latLng).title("I'm here").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
                     }else {
                         Log.d("MAP","Current location is null. Using defaults.");
                         Log.e("MAP", "Exception: %s", task.getException());
@@ -148,32 +179,5 @@ public class EventsFragment extends Fragment implements OnMapReadyCallback {
             }
         });
 
-
     }
-//    @SuppressLint("MissingPermission")
-//    private void getLocation(){
-//        LocationManager locationManager= (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-//        String provider = LocationManager.GPS_PROVIDER;
-//
-//
-//        Location location = locationManager.getLastKnownLocation(provider);
-//        Log.i("Locator","Location:"+location);
-//        if (location!=null){
-//            latitude=location.getLatitude();
-//            longitude=location.getLongitude();
-//        }else {
-//            Log.i("Locator","Location: null");
-//        }
-//        locationManager.requestLocationUpdates(provider,2000,10,locationListener);
-//
-//    }
-//
-//    private final LocationListener locationListener = new LocationListener() {
-//        @Override
-//        public void onLocationChanged(@NonNull Location location) {
-//            latitude=location.getLatitude();
-//            longitude=location.getLongitude();
-//
-//        }
-//    };
 }

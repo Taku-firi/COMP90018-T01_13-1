@@ -1,7 +1,9 @@
 package com.comp90018.assignment2.application;
 
+import android.Manifest;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -11,11 +13,12 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-
 import com.comp90018.assignment2.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,4 +34,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+
 }
