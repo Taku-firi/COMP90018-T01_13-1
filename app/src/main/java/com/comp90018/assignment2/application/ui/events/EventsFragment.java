@@ -23,6 +23,7 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.comp90018.assignment2.R;
+import com.comp90018.assignment2.application.utils.EventDialog;
 import com.comp90018.assignment2.application.utils.PermissionsChecker;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -128,7 +129,6 @@ public class EventsFragment extends Fragment implements OnMapReadyCallback,Googl
     private void enableMyLocation(){
         if (doCheckPermission()) {
             map.setMyLocationEnabled(true);
-            return;
         }
     }
 
@@ -149,17 +149,28 @@ public class EventsFragment extends Fragment implements OnMapReadyCallback,Googl
     }
 
     private void addMarkers(){
-        LatLng location = new LatLng(-37.7963,144.9614);
-        map.addMarker(new MarkerOptions().position(location).title("Activity 1"));
+        LatLng location1 = new LatLng(-37.7963,144.9614);
+        map.addMarker(new MarkerOptions().position(location1).title("Activity 1"));
+        LatLng location2 = new LatLng(-37.7965,144.9622);
+        Marker mak2 = map.addMarker(new MarkerOptions().position(location2).title("Activity 2"));
+        mak2.hideInfoWindow();
     }
 
 
     @Override
     public boolean onMarkerClick(@NonNull Marker marker) {
         String title = marker.getTitle();
-        Toast.makeText(getActivity(),"Activity:"+title,Toast.LENGTH_SHORT).show();
-
+//        Toast.makeText(getActivity(),"Activity:"+title,Toast.LENGTH_SHORT).show();
+        popEventDialog(title);
         return false;
+    }
+
+    private void popEventDialog(String title){
+        EventDialog dialog = new EventDialog();
+        Bundle bundle = new Bundle();
+        bundle.putString(EventDialog.K_TITLE,title);
+        dialog.setArguments(bundle);
+        dialog.show(getActivity().getSupportFragmentManager(),"TAG");
     }
 
     public boolean doCheckPermission(){
