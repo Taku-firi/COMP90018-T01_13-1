@@ -34,13 +34,14 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class EventsFragment extends Fragment implements OnMapReadyCallback,GoogleMap.OnMyLocationButtonClickListener,GoogleMap.OnMyLocationClickListener{
+public class EventsFragment extends Fragment implements OnMapReadyCallback,GoogleMap.OnMyLocationButtonClickListener,GoogleMap.OnMyLocationClickListener, GoogleMap.OnMarkerClickListener {
 
     final String[] PERMISSIONS = new String[]{
             Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -116,12 +117,11 @@ public class EventsFragment extends Fragment implements OnMapReadyCallback,Googl
         this.map = googleMap;
         map.setOnMyLocationButtonClickListener(this);
         map.setOnMyLocationClickListener(this);
+        map.setOnMarkerClickListener(this);
         enableMyLocation();
         getCurrentLocation();
 
-        LatLng location = new LatLng(-37.7963,144.9614);
-        map.addMarker(new MarkerOptions().position(location).title("Activity 1"));
-
+        addMarkers();
     }
 
     @SuppressLint("MissingPermission")
@@ -138,12 +138,27 @@ public class EventsFragment extends Fragment implements OnMapReadyCallback,Googl
 //                .show();
     }
 
+
     @Override
     public boolean onMyLocationButtonClick() {
 //        Toast.makeText(getActivity(), "MyLocation button clicked", Toast.LENGTH_SHORT)
 //                .show();
         // Return false so that we don't consume the event and the default behavior still occurs
         // (the camera animates to the user's current position).
+        return false;
+    }
+
+    private void addMarkers(){
+        LatLng location = new LatLng(-37.7963,144.9614);
+        map.addMarker(new MarkerOptions().position(location).title("Activity 1"));
+    }
+
+
+    @Override
+    public boolean onMarkerClick(@NonNull Marker marker) {
+        String title = marker.getTitle();
+        Toast.makeText(getActivity(),"Activity:"+title,Toast.LENGTH_SHORT).show();
+
         return false;
     }
 
@@ -180,4 +195,6 @@ public class EventsFragment extends Fragment implements OnMapReadyCallback,Googl
         });
 
     }
+
+
 }
