@@ -3,6 +3,8 @@ package com.comp90018.assignment2.application.ui.events;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -21,8 +23,11 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import com.comp90018.assignment2.R;
+import com.comp90018.assignment2.application.CreateEventActivity;
 import com.comp90018.assignment2.application.utils.EventDialog;
 import com.comp90018.assignment2.application.utils.PermissionsChecker;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -97,6 +102,13 @@ public class EventsFragment extends Fragment implements OnMapReadyCallback,Googl
             @Override
             public void onClick(View v) {
                 Toast.makeText(getActivity(),"Clicked",Toast.LENGTH_SHORT).show();
+                Bundle bundle = new Bundle();
+                bundle.putDouble("Latitude",lastKnownLocation.getLatitude());
+                bundle.putDouble("Longitude",lastKnownLocation.getLongitude());
+
+                Intent intent = new Intent(getActivity(),CreateEventActivity.class);
+                intent.putExtra("bundle",bundle);
+                startActivity(intent);
             }
         });
 

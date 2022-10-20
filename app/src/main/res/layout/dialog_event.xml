@@ -67,6 +67,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     style="?attr/borderlessButtonStyle"
+                    android:id="@+id/dialog_btn_join"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -74,6 +75,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     style="?attr/borderlessButtonStyle"
+                    android:id="@+id/dialog_btn_close"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Close" />

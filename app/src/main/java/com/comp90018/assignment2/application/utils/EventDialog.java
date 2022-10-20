@@ -10,9 +10,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import android.app.Dialog;
+import android.widget.Toast;
+
 import androidx.fragment.app.DialogFragment;
 
 import com.comp90018.assignment2.R;
+import com.google.android.material.button.MaterialButton;
 
 public class EventDialog extends DialogFragment {
     public static final String K_TITLE = "k_title";
@@ -39,5 +42,23 @@ public class EventDialog extends DialogFragment {
         super.onViewCreated(view, savedInstanceState);
         TextView titleTv = view.findViewById(R.id.dialog_title);
         titleTv.setText(title);
+
+        MaterialButton btnClose = view.findViewById(R.id.dialog_btn_close);
+        MaterialButton btnJoin = view.findViewById(R.id.dialog_btn_join);
+
+        btnClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
+
+        btnJoin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getActivity(),"Event joined: "+title,Toast.LENGTH_SHORT).show();
+                dismiss();
+            }
+        });
     }
 }
