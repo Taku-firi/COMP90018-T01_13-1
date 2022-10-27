@@ -1,17 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/tv1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/tv2"
+        android:id="@+id/launch_event"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"/>
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="50dp"
+        android:gravity="center"
+        android:text="Launch an event"
+        android:textColor="@color/black"
+        android:textSize="35dp"
+        android:textStyle="bold" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/event_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/launch_event"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:drawablePadding="20dp"
+        android:hint="Event name"
+        android:padding="20dp"
+        android:theme="@style/MyEditText"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/event_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/event_name"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:drawablePadding="20dp"
+        android:hint="Date"
+        android:padding="20dp"
+        android:theme="@style/MyEditText"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black" />
+
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/event_category"
+        android:layout_width="150dp"
+        android:layout_height="64dp"
+        android:layout_below="@+id/event_date"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/spinner_border"
+        android:layout_centerHorizontal="true"
+        android:entries="@array/event_category"
+        android:padding="20dp"
+        />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/event_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/event_category"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:hint="Detail"
+        android:background="@drawable/edittext_border"
+        android:gravity="top"
+        android:minLines="3"
+        android:padding="20dp"
+        android:theme="@style/MyEditText"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black" />
+
+
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/launch_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/event_detail"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:backgroundTint="@color/purple_500"
+        android:text="Launch" />
+
+
+
+
 
 </RelativeLayout>

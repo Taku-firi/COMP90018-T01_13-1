@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="MyEditText" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@color/purple_500</item>
+        <item name="colorControlActivated">@color/purple_700</item>
+    </style>
+</resources>

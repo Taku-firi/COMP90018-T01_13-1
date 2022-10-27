@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item>
+        <shape>
+
+            <stroke
+                android:width="1dip"
+                android:color="@color/purple_500" >
+            </stroke>
+
+            <corners android:radius="3dp" />
+
+            <solid android:color="#ffffff" />
+
+            <padding
+                android:bottom="5dp"
+                android:left="5dp"
+                android:right="5dp"
+                android:top="5dp" >
+            </padding>
+
+            <corners
+                android:bottomLeftRadius="10dp"
+                android:bottomRightRadius="10dp"
+                android:topLeftRadius="10dp"
+                android:topRightRadius="10dp" />
+        </shape>
+    </item>
+
+<!--  Drop down icon-->
+    <item>
+
+        <bitmap
+            android:gravity="end"
+            android:src="@drawable/ic_drop_down">
+        </bitmap>
+
+    </item>
+</layer-list>

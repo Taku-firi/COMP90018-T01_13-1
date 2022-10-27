@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="event_category">
+        <item>Online</item>
+        <item>Offline</item>
+    </string-array>
+</resources>
