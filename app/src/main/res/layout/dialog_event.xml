@@ -20,10 +20,11 @@
             <!-- Media -->
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="194dp"
-
+                android:layout_height="200dp"
                 android:contentDescription="Image"
-                android:scaleType="centerCrop" />
+                android:background="@drawable/bg_fitness"
+                android:scaleType="centerInside" />
+
             <!--            app:srcCompat="@drawable/media"-->
             <LinearLayout
                 android:layout_width="match_parent"
