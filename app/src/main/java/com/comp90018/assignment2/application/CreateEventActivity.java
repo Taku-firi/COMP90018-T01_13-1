@@ -11,11 +11,16 @@ import android.view.View.OnFocusChangeListener;
 import android.view.View.OnTouchListener;
 import android.widget.DatePicker;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatSpinner;
 
 import com.comp90018.assignment2.R;
 import com.comp90018.assignment2.application.objects.Event;
+import com.comp90018.assignment2.application.utils.DaoEvent;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textview.MaterialTextView;
@@ -40,7 +45,7 @@ public class CreateEventActivity extends AppCompatActivity {
         AppCompatSpinner spinner = findViewById(R.id.event_category);
         TextInputEditText eventDetail = findViewById(R.id.event_detail);
 
-
+        DaoEvent daoEvent= new DaoEvent();
 
         eventDate = findViewById(R.id.event_date);
         eventDate.setOnTouchListener(new OnTouchListener() {
@@ -76,6 +81,18 @@ public class CreateEventActivity extends AppCompatActivity {
                 cEvent.setDate(date);
                 cEvent.setDetail(detail);
                 cEvent.setType(category);
+
+                daoEvent.add(cEvent).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Toast.makeText(CreateEventActivity.this,"Record is inserted",Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(CreateEventActivity.this,"Error inserting"+e.getMessage(),Toast.LENGTH_SHORT).show();
+                    }
+                });
 
                 Toast.makeText(CreateEventActivity.this,"launched: "+ name+date+category+detail,Toast.LENGTH_LONG).show();
                 Log.d("EVENT OBJECT",cEvent.getDate()+" "+cEvent.getDetail()+" "+cEvent.getName()+" "+cEvent.getType()+""+cEvent.getLatitude()+" "+cEvent.getLongitude());
