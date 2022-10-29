@@ -19,8 +19,10 @@ import com.google.android.material.button.MaterialButton;
 
 public class EventDialog extends DialogFragment {
     public static final String K_TITLE = "k_title";
+    public static final String K_DATE = "k_date";
+    public static final String K_DETAIL = "k_detail";
 
-    private String title;
+    private String title,date,detail;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState){
@@ -28,6 +30,8 @@ public class EventDialog extends DialogFragment {
         Bundle in = getArguments();
         if (in!=null){
             title= in.getString(K_TITLE);
+            date = in.getString(K_DATE);
+            detail = in.getString(K_DETAIL);
         }
     }
 
@@ -41,7 +45,11 @@ public class EventDialog extends DialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState){
         super.onViewCreated(view, savedInstanceState);
         TextView titleTv = view.findViewById(R.id.dialog_title);
+        TextView dateTv = view.findViewById(R.id.dialog_date);
+        TextView detailTv = view.findViewById(R.id.dialog_detail);
         titleTv.setText(title);
+        dateTv.setText(date);
+        detailTv.setText(detail);
 
         MaterialButton btnClose = view.findViewById(R.id.dialog_btn_close);
         MaterialButton btnJoin = view.findViewById(R.id.dialog_btn_join);

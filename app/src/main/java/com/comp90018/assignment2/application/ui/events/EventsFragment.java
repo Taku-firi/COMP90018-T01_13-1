@@ -28,6 +28,8 @@ import androidx.navigation.Navigation;
 
 import com.comp90018.assignment2.R;
 import com.comp90018.assignment2.application.CreateEventActivity;
+import com.comp90018.assignment2.application.objects.Event;
+import com.comp90018.assignment2.application.utils.DaoEvent;
 import com.comp90018.assignment2.application.utils.EventDialog;
 import com.comp90018.assignment2.application.utils.PermissionsChecker;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -46,6 +48,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class EventsFragment extends Fragment implements OnMapReadyCallback,GoogleMap.OnMyLocationButtonClickListener,GoogleMap.OnMyLocationClickListener, GoogleMap.OnMarkerClickListener {
 
@@ -71,6 +78,10 @@ public class EventsFragment extends Fragment implements OnMapReadyCallback,Googl
     SupportMapFragment mapFragment;
     FusedLocationProviderClient client;
     FloatingActionButton fab;
+
+    DaoEvent daoEvent;
+
+    ArrayList<Event> eventslist = new ArrayList<>();
 //    private Double longitude,latitude;
 
 
@@ -89,7 +100,7 @@ public class EventsFragment extends Fragment implements OnMapReadyCallback,Googl
 
 
         doCheckPermission();
-
+        daoEvent = new DaoEvent();
         // Initialize fused location
         client = LocationServices.getFusedLocationProviderClient(this.getActivity());
 
@@ -161,26 +172,56 @@ public class EventsFragment extends Fragment implements OnMapReadyCallback,Googl
     }
 
     private void addMarkers(){
-        LatLng location1 = new LatLng(-37.7963,144.9614);
-        map.addMarker(new MarkerOptions().position(location1).title("Activity 1"));
-        LatLng location2 = new LatLng(-37.7965,144.9622);
-        Marker mak2 = map.addMarker(new MarkerOptions().position(location2).title("Activity 2"));
-        mak2.hideInfoWindow();
+        daoEvent.get().addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot eventData : snapshot.getChildren()){
+                    Event event = eventData.getValue(Event.class);
+                    eventslist.add(event);
+                    LatLng loc=new LatLng(event.getLatitude(),event.getLongitude());
+                    map.addMarker(new MarkerOptions().position(loc).title(event.getName()));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+//        LatLng location1 = new LatLng(-37.7963,144.9614);
+//        map.addMarker(new MarkerOptions().position(location1).title("Activity 1"));
+//        LatLng location2 = new LatLng(-37.7965,144.9622);
+//        Marker mak2 = map.addMarker(new MarkerOptions().position(location2).title("Activity 2"));
+//        mak2.hideInfoWindow();
     }
 
 
     @Override
     public boolean onMarkerClick(@NonNull Marker marker) {
         String title = marker.getTitle();
+        String date ="";
+        String detail = "";
+
+        for (int i=0;i<eventslist.size();i++){
+            Event cEvent = eventslist.get(i);
+            if (cEvent.getName().equals(title)){
+                date = cEvent.getDate();
+                detail = cEvent.getDetail();
+//                Log.d("EVENT CLICK",date+" "+detail);
+            }
+        }
 //        Toast.makeText(getActivity(),"Activity:"+title,Toast.LENGTH_SHORT).show();
-        popEventDialog(title);
+        popEventDialog(title,date,detail);
         return false;
     }
 
-    private void popEventDialog(String title){
+    private void popEventDialog(String title, String date, String detail){
         EventDialog dialog = new EventDialog();
         Bundle bundle = new Bundle();
         bundle.putString(EventDialog.K_TITLE,title);
+        bundle.putString(EventDialog.K_DATE,date);
+        bundle.putString(EventDialog.K_DETAIL,detail);
         dialog.setArguments(bundle);
         dialog.show(getActivity().getSupportFragmentManager(),"TAG");
     }
