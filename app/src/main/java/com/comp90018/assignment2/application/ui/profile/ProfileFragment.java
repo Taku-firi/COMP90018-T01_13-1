@@ -25,6 +25,9 @@ public class ProfileFragment extends Fragment {
     private TextView profileInterests;
     private TextView profileSelfIntroduction;
 
+    final static int REQUEST=10;
+    final static int RESULT_OK=1;
+    final static int RESULT_CANCELED=-1;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -54,8 +57,25 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(ProfileFragment.this.getActivity(), ProfileSetting.class);
-                ProfileFragment.this.startActivity(myIntent);            }
+                ProfileFragment.this.startActivityForResult(myIntent, REQUEST);
+            };
+            protected void onActivityResult(int requestCode,int resultCode, Intent data) {
+                //requestcode
+                if(requestCode==REQUEST){
+                    //resultcode
+                    if(resultCode==RESULT_OK){
+                        //success
+                        System.out.println("success");
+                    }else if(resultCode==RESULT_CANCELED){
+                        //fail
+                        System.out.println("fail");
+                    }
+                }
+            }
         });
+
+
+
 
         return root;
     }
