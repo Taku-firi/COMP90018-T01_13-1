@@ -41,6 +41,9 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         vh.tvName.setText(event.getName());
         vh.tvDate.setText(event.getDate());
         vh.tvType.setText(event.getType());
+        if (event.getType().equals("Offline")){
+            vh.image.setImageResource(R.drawable.bg_offline);
+        }
         vh.card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

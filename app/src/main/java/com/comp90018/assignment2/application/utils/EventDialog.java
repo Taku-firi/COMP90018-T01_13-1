@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,8 +22,9 @@ public class EventDialog extends DialogFragment {
     public static final String K_TITLE = "k_title";
     public static final String K_DATE = "k_date";
     public static final String K_DETAIL = "k_detail";
+    public static final String K_TYPE = "K_type";
 
-    private String title,date,detail;
+    private String title,date,detail,type;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState){
@@ -32,6 +34,7 @@ public class EventDialog extends DialogFragment {
             title= in.getString(K_TITLE);
             date = in.getString(K_DATE);
             detail = in.getString(K_DETAIL);
+            type = in.getString(K_TYPE);
         }
     }
 
@@ -50,6 +53,11 @@ public class EventDialog extends DialogFragment {
         titleTv.setText(title);
         dateTv.setText(date);
         detailTv.setText(detail);
+
+        ImageView typeIv = view.findViewById(R.id.dialog_type);
+        if (type.equals("Offline")){
+            typeIv.setBackgroundResource(R.drawable.bg_offline);
+        }
 
         MaterialButton btnClose = view.findViewById(R.id.dialog_btn_close);
         MaterialButton btnJoin = view.findViewById(R.id.dialog_btn_join);

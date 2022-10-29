@@ -30,6 +30,8 @@ public class ScheduleFragment extends Fragment {
     RecyclerView recyclerView;
     ScheduleAdapter adapter;
     DaoEvent daoEvent;
+    boolean isLoading = false;
+    String key = null;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -54,7 +56,8 @@ public class ScheduleFragment extends Fragment {
     }
 
     private void loadEvents() {
-        daoEvent.get().addValueEventListener(new ValueEventListener() {
+        swipeRefreshLayout.setRefreshing(true);
+        daoEvent.get(key).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 ArrayList<Event> eventslist = new ArrayList<>();
@@ -64,6 +67,8 @@ public class ScheduleFragment extends Fragment {
                 }
                 adapter.setItems(eventslist);
                 adapter.notifyDataSetChanged();
+                isLoading = false;
+                swipeRefreshLayout.setRefreshing(false);
             }
 
             @Override

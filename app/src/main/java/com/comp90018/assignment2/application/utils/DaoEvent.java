@@ -32,4 +32,11 @@ public class DaoEvent {
     public Query get(){
         return databaseReference.orderByKey();
     }
+
+    public Query get(String key){
+        if (key==null){
+            return databaseReference.orderByKey().limitToFirst(8);
+        }
+        return databaseReference.orderByKey().startAfter(key).limitToFirst(8);
+    }
 }

@@ -179,7 +179,11 @@ public class EventsFragment extends Fragment implements OnMapReadyCallback,Googl
                     Event event = eventData.getValue(Event.class);
                     eventslist.add(event);
                     LatLng loc=new LatLng(event.getLatitude(),event.getLongitude());
-                    map.addMarker(new MarkerOptions().position(loc).title(event.getName()));
+                    if(event.getType().equals("Offline")){
+                        map.addMarker(new MarkerOptions().position(loc).title(event.getName()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+                    }else {
+                        map.addMarker(new MarkerOptions().position(loc).title(event.getName()));
+                    }
                 }
             }
 
@@ -202,26 +206,29 @@ public class EventsFragment extends Fragment implements OnMapReadyCallback,Googl
         String title = marker.getTitle();
         String date ="";
         String detail = "";
+        String type = "";
 
         for (int i=0;i<eventslist.size();i++){
             Event cEvent = eventslist.get(i);
             if (cEvent.getName().equals(title)){
                 date = cEvent.getDate();
                 detail = cEvent.getDetail();
+                type = cEvent.getType();
 //                Log.d("EVENT CLICK",date+" "+detail);
             }
         }
 //        Toast.makeText(getActivity(),"Activity:"+title,Toast.LENGTH_SHORT).show();
-        popEventDialog(title,date,detail);
+        popEventDialog(title,date,detail,type);
         return false;
     }
 
-    private void popEventDialog(String title, String date, String detail){
+    private void popEventDialog(String title, String date, String detail, String type){
         EventDialog dialog = new EventDialog();
         Bundle bundle = new Bundle();
         bundle.putString(EventDialog.K_TITLE,title);
         bundle.putString(EventDialog.K_DATE,date);
         bundle.putString(EventDialog.K_DETAIL,detail);
+        bundle.putString(EventDialog.K_TYPE,type);
         dialog.setArguments(bundle);
         dialog.show(getActivity().getSupportFragmentManager(),"TAG");
     }
