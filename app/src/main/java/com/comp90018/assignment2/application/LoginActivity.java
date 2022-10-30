@@ -1,6 +1,8 @@
 package com.comp90018.assignment2.application;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -47,7 +49,7 @@ public class LoginActivity extends AppCompatActivity{
             public void onClick(View view) {
                 String email = tv_email.getText().toString();
                 String password = tv_password.getText().toString();
-                
+
                 if (email.isEmpty()||password.isEmpty()){
                     Toast.makeText(LoginActivity.this,"Please fill all fields",Toast.LENGTH_SHORT).show();
                 }
@@ -61,6 +63,9 @@ public class LoginActivity extends AppCompatActivity{
 
                                 if (getPass.equals(password)){
                                     Toast.makeText(LoginActivity.this, "Successfully Logged in", Toast.LENGTH_SHORT).show();
+                                    SharedPreferences.Editor editor = getSharedPreferences("assignment2",MODE_PRIVATE).edit();
+                                    editor.putString("currentUser",email);
+                                    editor.apply();
                                     startActivity(new Intent(LoginActivity.this,MainActivity.class));
                                 }
                                 else {

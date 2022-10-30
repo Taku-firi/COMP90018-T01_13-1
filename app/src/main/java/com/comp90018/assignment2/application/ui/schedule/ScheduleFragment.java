@@ -1,5 +1,8 @@
 package com.comp90018.assignment2.application.ui.schedule;
 
+import static android.content.Context.MODE_PRIVATE;
+
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +19,7 @@ import com.comp90018.assignment2.R;
 import com.comp90018.assignment2.application.adapter.ScheduleAdapter;
 import com.comp90018.assignment2.application.objects.Event;
 import com.comp90018.assignment2.application.utils.DaoEvent;
+import com.comp90018.assignment2.application.utils.DaoUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -30,6 +34,7 @@ public class ScheduleFragment extends Fragment {
     RecyclerView recyclerView;
     ScheduleAdapter adapter;
     DaoEvent daoEvent;
+    DaoUser daoUser;
     boolean isLoading = false;
     String key = null;
 
@@ -48,6 +53,7 @@ public class ScheduleFragment extends Fragment {
         adapter = new ScheduleAdapter(getContext());
         recyclerView.setAdapter(adapter);
         daoEvent = new DaoEvent();
+        daoUser = new DaoUser();
         loadEvents();
 
 
@@ -57,18 +63,14 @@ public class ScheduleFragment extends Fragment {
 
     private void loadEvents() {
         swipeRefreshLayout.setRefreshing(true);
-        daoEvent.get(key).addValueEventListener(new ValueEventListener() {
+        
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("assignment2",MODE_PRIVATE);
+        String userEmail = sharedPreferences.getString("currentUser","");
+
+        daoUser.getDatabaseReference().child("Users").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                ArrayList<Event> eventslist = new ArrayList<>();
-                for (DataSnapshot data : snapshot.getChildren()){
-                    Event event = data.getValue(Event.class);
-                    eventslist.add(event);
-                }
-                adapter.setItems(eventslist);
-                adapter.notifyDataSetChanged();
-                isLoading = false;
-                swipeRefreshLayout.setRefreshing(false);
+
             }
 
             @Override
@@ -76,5 +78,24 @@ public class ScheduleFragment extends Fragment {
 
             }
         });
+//        daoEvent.get(key).addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                ArrayList<Event> eventslist = new ArrayList<>();
+//                for (DataSnapshot data : snapshot.getChildren()){
+//                    Event event = data.getValue(Event.class);
+//                    eventslist.add(event);
+//                }
+//                adapter.setItems(eventslist);
+//                adapter.notifyDataSetChanged();
+//                isLoading = false;
+//                swipeRefreshLayout.setRefreshing(false);
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
     }
 }
