@@ -20,7 +20,7 @@ public class DaoUser {
     }
 
     public Task<Void> add(User user){
-        return databaseReference.child("Users").child(user.getEmail()).setValue(user);
+        return databaseReference.child("Users").child(user.getName()).setValue(user);
 //        return databaseReference.push().setValue(user);
     }
 

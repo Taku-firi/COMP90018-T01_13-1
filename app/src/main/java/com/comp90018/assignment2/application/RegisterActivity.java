@@ -64,8 +64,8 @@ public class RegisterActivity extends AppCompatActivity {
                     daoUser.getDatabaseReference().child("Users").addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            if (snapshot.hasChild(email)){
-                                Toast.makeText(RegisterActivity.this,"This e-mail already has a corresponding user",Toast.LENGTH_SHORT).show();
+                            if (snapshot.hasChild(username)){
+                                Toast.makeText(RegisterActivity.this,"This user already exist",Toast.LENGTH_SHORT).show();
                             }else {
                                 daoUser.add(cUser).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override

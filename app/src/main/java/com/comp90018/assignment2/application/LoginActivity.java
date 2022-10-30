@@ -28,7 +28,7 @@ public class LoginActivity extends AppCompatActivity{
 
         DaoUser daoUser = new DaoUser();
 
-        TextInputEditText tv_email = findViewById(R.id.login_email);
+        TextInputEditText tv_user = findViewById(R.id.login_username);
         TextInputEditText tv_password = findViewById(R.id.login_password);
 
 
@@ -47,10 +47,10 @@ public class LoginActivity extends AppCompatActivity{
 
             @Override
             public void onClick(View view) {
-                String email = tv_email.getText().toString();
+                String user = tv_user.getText().toString();
                 String password = tv_password.getText().toString();
 
-                if (email.isEmpty()||password.isEmpty()){
+                if (user.isEmpty()||password.isEmpty()){
                     Toast.makeText(LoginActivity.this,"Please fill all fields",Toast.LENGTH_SHORT).show();
                 }
                 else {
@@ -58,13 +58,13 @@ public class LoginActivity extends AppCompatActivity{
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             // if e-mail exists in the database
-                            if (snapshot.hasChild(email)){
-                                String getPass = snapshot.child(email).child("password").getValue(String.class);
+                            if (snapshot.hasChild(user)){
+                                String getPass = snapshot.child(user).child("password").getValue(String.class);
 
                                 if (getPass.equals(password)){
                                     Toast.makeText(LoginActivity.this, "Successfully Logged in", Toast.LENGTH_SHORT).show();
                                     SharedPreferences.Editor editor = getSharedPreferences("assignment2",MODE_PRIVATE).edit();
-                                    editor.putString("currentUser",email);
+                                    editor.putString("currentUser",user);
                                     editor.apply();
                                     startActivity(new Intent(LoginActivity.this,MainActivity.class));
                                 }
@@ -73,7 +73,7 @@ public class LoginActivity extends AppCompatActivity{
                                 }
                             }
                             else {
-                                Toast.makeText(LoginActivity.this,"Invalid e-mail",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LoginActivity.this,"User not exist",Toast.LENGTH_SHORT).show();
                             }
 
                         }

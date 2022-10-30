@@ -66,13 +66,13 @@ public class ScheduleFragment extends Fragment {
         swipeRefreshLayout.setRefreshing(true);
         
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("assignment2",MODE_PRIVATE);
-        String userEmail = sharedPreferences.getString("currentUser","");
+        String username = sharedPreferences.getString("currentUser","");
 
         daoUser.getDatabaseReference().child("Users").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.hasChild(userEmail)){
-                    User cUser = snapshot.child(userEmail).getValue(User.class);
+                if (snapshot.hasChild(username)){
+                    User cUser = snapshot.child(username).getValue(User.class);
                     ArrayList<Event> myevents = cUser.getEvents();
                     adapter .setItems(myevents);
                     adapter.notifyDataSetChanged();
