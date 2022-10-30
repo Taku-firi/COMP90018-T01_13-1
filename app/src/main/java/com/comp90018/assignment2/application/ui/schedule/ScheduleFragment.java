@@ -18,6 +18,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.comp90018.assignment2.R;
 import com.comp90018.assignment2.application.adapter.ScheduleAdapter;
 import com.comp90018.assignment2.application.objects.Event;
+import com.comp90018.assignment2.application.objects.User;
 import com.comp90018.assignment2.application.utils.DaoEvent;
 import com.comp90018.assignment2.application.utils.DaoUser;
 import com.google.firebase.database.DataSnapshot;
@@ -70,6 +71,14 @@ public class ScheduleFragment extends Fragment {
         daoUser.getDatabaseReference().child("Users").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.hasChild(userEmail)){
+                    User cUser = snapshot.child(userEmail).getValue(User.class);
+                    ArrayList<Event> myevents = cUser.getEvents();
+                    adapter .setItems(myevents);
+                    adapter.notifyDataSetChanged();
+                    isLoading = false;
+                    swipeRefreshLayout.setRefreshing(false);
+                }
 
             }
 

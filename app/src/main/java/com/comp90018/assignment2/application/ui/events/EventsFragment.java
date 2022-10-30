@@ -207,6 +207,8 @@ public class EventsFragment extends Fragment implements OnMapReadyCallback,Googl
         String date ="";
         String detail = "";
         String type = "";
+        Double longitude = 0.0;
+        Double latitude = 0.0;
 
         for (int i=0;i<eventslist.size();i++){
             Event cEvent = eventslist.get(i);
@@ -214,21 +216,25 @@ public class EventsFragment extends Fragment implements OnMapReadyCallback,Googl
                 date = cEvent.getDate();
                 detail = cEvent.getDetail();
                 type = cEvent.getType();
+                latitude = cEvent.getLatitude();
+                longitude = cEvent.getLongitude();
 //                Log.d("EVENT CLICK",date+" "+detail);
             }
         }
 //        Toast.makeText(getActivity(),"Activity:"+title,Toast.LENGTH_SHORT).show();
-        popEventDialog(title,date,detail,type);
+        popEventDialog(title,date,detail,type,latitude,longitude);
         return false;
     }
 
-    private void popEventDialog(String title, String date, String detail, String type){
+    private void popEventDialog(String title, String date, String detail, String type, Double latitude, Double longitude){
         EventDialog dialog = new EventDialog();
         Bundle bundle = new Bundle();
         bundle.putString(EventDialog.K_TITLE,title);
         bundle.putString(EventDialog.K_DATE,date);
         bundle.putString(EventDialog.K_DETAIL,detail);
         bundle.putString(EventDialog.K_TYPE,type);
+        bundle.getDouble(EventDialog.K_LAT,latitude);
+        bundle.getDouble(EventDialog.K_LONG,longitude);
         dialog.setArguments(bundle);
         dialog.show(getActivity().getSupportFragmentManager(),"TAG");
     }

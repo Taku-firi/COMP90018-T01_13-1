@@ -1,5 +1,8 @@
 package com.comp90018.assignment2.application.utils;
 
+import static android.content.Context.MODE_PRIVATE;
+
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.TextureView;
@@ -16,15 +19,30 @@ import android.widget.Toast;
 import androidx.fragment.app.DialogFragment;
 
 import com.comp90018.assignment2.R;
+import com.comp90018.assignment2.application.CreateEventActivity;
+import com.comp90018.assignment2.application.objects.Event;
+import com.comp90018.assignment2.application.objects.User;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButton;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class EventDialog extends DialogFragment {
     public static final String K_TITLE = "k_title";
     public static final String K_DATE = "k_date";
     public static final String K_DETAIL = "k_detail";
     public static final String K_TYPE = "K_type";
+    public static final String K_LAT = "K_lat";
+    public static final String K_LONG = "K_long";
+
 
     private String title,date,detail,type;
+    private Double latitude,longtitude;
+    private Event event;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState){
@@ -35,6 +53,12 @@ public class EventDialog extends DialogFragment {
             date = in.getString(K_DATE);
             detail = in.getString(K_DETAIL);
             type = in.getString(K_TYPE);
+            latitude = in.getDouble(K_LAT);
+            longtitude = in.getDouble(K_LONG);
+            event = new Event(title,latitude,longtitude);
+            event.setDate(date);
+            event.setDetail(detail);
+            event.setType(type);
         }
     }
 
@@ -72,6 +96,29 @@ public class EventDialog extends DialogFragment {
         btnJoin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                DaoEvent daoEvent = new DaoEvent();
+                DaoUser daoUser = new DaoUser();
+
+                daoEvent.add(event);
+                SharedPreferences sharedPreferences = getContext().getSharedPreferences("assignment2",MODE_PRIVATE);
+                String userEmail = sharedPreferences.getString("currentUser","");
+
+                daoUser.getDatabaseReference().child("Users").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.hasChild(userEmail)){
+                            User cUser = snapshot.child(userEmail).getValue(User.class);
+                            ArrayList<Event> myevents = cUser.getEvents();
+                            myevents.add(event);
+                            daoUser.add(cUser);
+                        }
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
                 Toast.makeText(getActivity(),"Event joined: "+title,Toast.LENGTH_SHORT).show();
                 dismiss();
             }
