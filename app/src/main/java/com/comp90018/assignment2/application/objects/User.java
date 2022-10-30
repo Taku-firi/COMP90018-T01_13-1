@@ -3,14 +3,14 @@ package com.comp90018.assignment2.application.objects;
 import java.util.ArrayList;
 
 public class User {
-    private String uid;
+    private String password;
     private String name;
     private String email;
-    private String gender;
-    private int age;
-    private String interest;
-    private String detail;
-    private ArrayList<Event> events;
+    private String gender = "";
+    private int age = 18;
+    private String interest = "";
+    private String detail = "";
+    private ArrayList<Event> events = new ArrayList<>();
 
     public User(){}
 
@@ -19,12 +19,12 @@ public class User {
         this.email = email;
     }
 
-    public String getUid() {
-        return uid;
+    public String getPassword() {
+        return password;
     }
 
-    public void setUid(String uid) {
-        this.uid = uid;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getName() {

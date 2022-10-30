@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+    tools:context=".application.LoginActivity">
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/login"
@@ -21,7 +21,7 @@
         android:textStyle="bold" />
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/username"
+        android:id="@+id/login_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/login"
@@ -31,16 +31,16 @@
         android:layout_marginBottom="10dp"
         android:drawableLeft="@drawable/ic_baseline_person_outline_24"
         android:drawablePadding="20dp"
-        android:hint="Username"
+        android:hint="E-mail"
         android:padding="20dp"
         android:textColor="@color/black"
         android:textColorHint="@color/black" />
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/password"
+        android:id="@+id/login_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/username"
+        android:layout_below="@+id/login_email"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
@@ -57,7 +57,7 @@
         android:id="@+id/loginBtn"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/password"
+        android:layout_below="@id/login_password"
         android:text="Login"
         android:backgroundTint="@color/purple_500"
         android:layout_centerHorizontal="true"
