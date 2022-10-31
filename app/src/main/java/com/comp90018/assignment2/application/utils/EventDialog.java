@@ -4,6 +4,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.TextureView;
 import android.view.View;
@@ -108,7 +109,19 @@ public class EventDialog extends DialogFragment {
                         if (snapshot.hasChild(username)){
                             User cUser = snapshot.child(username).getValue(User.class);
                             ArrayList<Event> myevents = cUser.getEvents();
-                            myevents.add(event);
+
+                            boolean exist =false;
+
+                            for (int i=0;i<myevents.size();i++){
+                                Event cEvent =myevents.get(i);
+                                if (cEvent.getName().equals(title)){
+                                    exist = true;
+                                }
+                            }
+
+                            if (!exist){
+                                myevents.add(event);
+                            }
                             daoUser.add(cUser);
                         }
                     }
@@ -118,7 +131,6 @@ public class EventDialog extends DialogFragment {
                     }
                 });
 
-                Toast.makeText(getActivity(),"Event joined: "+title,Toast.LENGTH_SHORT).show();
                 dismiss();
             }
         });
