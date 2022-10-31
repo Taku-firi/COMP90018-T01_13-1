@@ -96,10 +96,9 @@ public class EventDialog extends DialogFragment {
         btnJoin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DaoEvent daoEvent = new DaoEvent();
+
                 DaoUser daoUser = new DaoUser();
 
-                daoEvent.add(event);
                 SharedPreferences sharedPreferences = getContext().getSharedPreferences("assignment2",MODE_PRIVATE);
                 String username = sharedPreferences.getString("currentUser","");
 

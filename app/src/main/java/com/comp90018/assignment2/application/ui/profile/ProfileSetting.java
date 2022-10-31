@@ -24,7 +24,7 @@ public class ProfileSetting extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile_setting);
-
+        getSupportActionBar().hide();
         //get the spinner from the xml.
         Spinner dropdown = (Spinner) findViewById(R.id.editGender);
         //create a list of items for the spinner.

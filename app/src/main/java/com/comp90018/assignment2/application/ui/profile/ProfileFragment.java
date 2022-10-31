@@ -36,18 +36,18 @@ public class ProfileFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_profile, container, false);
 
         profileUserName= root.findViewById(R.id.profileUserName);
-        profileUserId= root.findViewById(R.id.profileUserId);
-        profileGender= root.findViewById(R.id.profileGender);
-        profileAge= root.findViewById(R.id.profileAge);
+//        profileUserId= root.findViewById(R.id.profileUserId);
+//        profileGender= root.findViewById(R.id.profileGender);
+//        profileAge= root.findViewById(R.id.profileAge);
         profileLocation= root.findViewById(R.id.profileLocation);
         profileInterests= root.findViewById(R.id.profileInterests);
         profileSelfIntroduction= root.findViewById(R.id.profileSelfIntroduction);
 
         //pressure.setText(String.valueOf(event.getPressure()));
-        profileUserName.setText("User name: "+"Xiao Ming");
-        profileUserId.setText("User Id: "+"001");
-        profileGender.setText("Gender: "+"Male");
-        profileAge.setText("Age: "+"22");
+        profileUserName.setText("Xiao Ming");
+//        profileUserId.setText("User Id: "+"001");
+//        profileGender.setText("Gender: "+"Male");
+//        profileAge.setText("Age: "+"22");
         profileLocation.setText("Location: "+"Melbourne");
         profileInterests.setText("Interests: "+"Swimming");
         profileSelfIntroduction.setText("Self introduction: "+"Love sports.");
