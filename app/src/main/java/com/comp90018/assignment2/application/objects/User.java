@@ -3,13 +3,15 @@ package com.comp90018.assignment2.application.objects;
 import java.util.ArrayList;
 
 public class User {
+
     private String password;
     private String name;
     private String email;
-    private String gender = "";
-    private int age = 18;
-    private String interest = "";
-    private String detail = "";
+    private String gender = "Unknown";
+    private String age = "18";
+    private String location= "location";
+    private String interest = "interest";
+    private String detail = "self intro";
     private ArrayList<Event> events = new ArrayList<>();
 
     public User(){}
@@ -35,6 +37,14 @@ public class User {
         this.name = name;
     }
 
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -51,11 +61,11 @@ public class User {
         this.gender = gender;
     }
 
-    public int getAge() {
+    public String getAge() {
         return age;
     }
 
-    public void setAge(int age) {
+    public void setAge(String age) {
         this.age = age;
     }
 

@@ -4,4 +4,10 @@
         <item>Online</item>
         <item>Offline</item>
     </string-array>
+
+    <string-array name="gender_type">
+        <item>Male</item>
+        <item>Female</item>
+        <item>Unknown</item>
+    </string-array>
 </resources>
