@@ -5,6 +5,10 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-feature android:name="android.hardware.sensor.accelerometer" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
 
     <application
         android:allowBackup="true"
@@ -38,6 +42,7 @@
         <activity android:name=".application.MainActivity"/>
         <activity android:name=".application.RegisterActivity"/>
         <activity android:name=".application.CreateEventActivity" />
+        <activity android:name=".application.EventDetailActivity"/>
         <activity
             android:name=".application.ui.profile.ProfileSetting"
             android:exported="false" />

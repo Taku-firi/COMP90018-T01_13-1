@@ -1,6 +1,7 @@
 package com.comp90018.assignment2.application.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.comp90018.assignment2.R;
+import com.comp90018.assignment2.application.EventDetailActivity;
 import com.comp90018.assignment2.application.objects.Event;
 
 import java.util.ArrayList;
@@ -47,6 +49,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         vh.card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                context.startActivity(new Intent(context, EventDetailActivity.class));
                 Toast.makeText(context,"Clicked",Toast.LENGTH_SHORT).show();
             }
         });
