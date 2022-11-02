@@ -6,20 +6,22 @@ android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:gravity="center"
 android:orientation="vertical"
-tools:context=".EventDetailActivity">
+tools:context=".application.EventDetailActivity">
 
-<TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="没事儿走两步"
-    android:textSize="25dp"
-    app:layout_constraintTop_toTopOf="parent" />
-
-<TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:id="@+id/tv_step"
-    android:textSize="25dp"
-    app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:text="RUNNING"
+        android:textSize="50dp"
+        android:textStyle="bold|italic"
+        android:textColor="#407030"
+        app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_step"
+        android:textSize="25dp"
+        android:textColor="#67ACA9"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </LinearLayout>
