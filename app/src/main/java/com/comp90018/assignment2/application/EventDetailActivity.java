@@ -26,7 +26,7 @@ import com.comp90018.assignment2.R;
 
 public class EventDetailActivity extends AppCompatActivity implements SensorEventListener {
 
-    //动态申请健康运动权限
+    //Dynamically apply for exercise permission
     private static final String[] ACTIVITY_RECOGNITION_PERMISSION = {Manifest.permission.ACTIVITY_RECOGNITION};
 
     private final String TAG = "TDSSS";
@@ -44,32 +44,24 @@ public class EventDetailActivity extends AppCompatActivity implements SensorEven
         setContentView(R.layout.activity_event_detail);
         getSupportActionBar().hide();
 
-        // 获取SensorManager管理器实例
+        // Get SensorManager instance
         mSensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
-        //检查权限
+        // Check the permission
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            // 检查该权限是否已经获取
+            // Check whether the permission has been obtained
             int get = ContextCompat.checkSelfPermission(this, ACTIVITY_RECOGNITION_PERMISSION[0]);
-            // 权限是否已经 授权 GRANTED---授权  DINIED---拒绝
+            // Check whether the permission is authorized  GRANTED---agree DINIED---cancel
             if (get != PackageManager.PERMISSION_GRANTED) {
-                // 如果没有授予该权限，就去提示用户请求自动开启权限
+                // If this permission is not granted, the system prompts the user to request to enable the permission
                 ActivityCompat.requestPermissions(this, ACTIVITY_RECOGNITION_PERMISSION, 321);
             }
         }
         tv = (TextView)findViewById(R.id.tv_step);
-        // 获取计步器sensor
-        /*
-        stepCounter = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
-        if(stepCounter != null){
-            // 如果sensor找到，则注册监听器
-            mSensorManager.registerListener(this,stepCounter,1000000);
-        }
-        else{
-            Log.e(TAG,"no step counter sensor found");
-        }*/
+        // Get pedometer sensor data
+
         stepDetector = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
         if(stepDetector != null){
-            // 如果sensor找到，则注册监听器
+            // If sensor finds it, register the listener
             mSensorManager.registerListener(this,stepDetector,1000000);
         }
         else{
@@ -84,20 +76,20 @@ public class EventDetailActivity extends AppCompatActivity implements SensorEven
         if (requestCode == 321) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                    //提示用户手动开启权限
+                    ///Prompts the user to manually enable the permission
                     new AlertDialog.Builder(this)
-                            .setTitle("健康运动权限")
-                            .setMessage("健康运动权限不可用")
-                            .setPositiveButton("立即开启", (dialog12, which) -> {
-                                // 跳转到应用设置界面
+                            .setTitle("Pedometer permission")
+                            .setMessage("Unable to obtain pedometer permission")
+                            .setPositiveButton("Open now", (dialog12, which) -> {
+                                // Jump to the application settings screen
                                 Intent intent = new Intent();
                                 intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
                                 Uri uri = Uri.fromParts("package", getPackageName(), null);
                                 intent.setData(uri);
                                 startActivityForResult(intent, 123);
                             })
-                            .setNegativeButton("取消", (dialog1, which) -> {
-                                Toast.makeText(getApplicationContext(), "没有获得权限，应用无法运行！", Toast.LENGTH_SHORT).show();
+                            .setNegativeButton("Cancel", (dialog1, which) -> {
+                                Toast.makeText(getApplicationContext(), "Didn't get permission to run!", Toast.LENGTH_SHORT).show();
                                 finish();
                             }).setCancelable(false).show();
                 }
@@ -105,15 +97,15 @@ public class EventDetailActivity extends AppCompatActivity implements SensorEven
         }
     }
 
-    // 实现SensorEventListener回调接口，在sensor改变时，会回调该接口
-    // 并将结果通过event回传给app处理
+    // Implement SensorEventListener callback interface, when the sensor changes, it will call back the interface,
+    // and the result will be passed back to the app via event.
     @Override
     public void onSensorChanged(SensorEvent event) {
         if (event.values[0] == 1.0f){
             mSteps++;
         }
         Log.i(TAG,"Detected step changes:"+event.values[0]);
-        tv.setText("您今天走了"+String.valueOf((int)mSteps)+"步");
+        tv.setText("You have taken"+String.valueOf((int)mSteps)+"Steps");
     }
 
     @Override
