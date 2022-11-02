@@ -10,17 +10,52 @@ tools:context=".application.EventDetailActivity">
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="100dp"
+        android:layout_height="70dp"
         android:text="RUNNING"
         android:textSize="50dp"
         android:textStyle="bold|italic"
         android:textColor="#407030"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TableLayout
+        android:id="@+id/TableLayout2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        >
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Aim:"
+                android:textSize="25dp"
+                android:textStyle="bold"
+                android:textColor="#78B038"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:inputType="phone" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Steps"
+                android:textSize="25dp"
+                android:textStyle="bold|italic"
+                android:textColor="#78B038"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </TableRow>
+    </TableLayout>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tv_step"
-        android:textSize="25dp"
+        android:textSize="35dp"
         android:textColor="#67ACA9"
         app:layout_constraintTop_toTopOf="parent" />
 
