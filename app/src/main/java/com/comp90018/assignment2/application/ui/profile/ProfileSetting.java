@@ -27,16 +27,15 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
+// Activity for change user profile
 public class ProfileSetting extends AppCompatActivity {
 
-    //@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile_setting);
         getSupportActionBar().hide();
-        //get the spinner from the xml.
-        AppCompatSpinner inGender = findViewById(R.id.editGender);
 
+        AppCompatSpinner inGender = findViewById(R.id.editGender);
         TextInputEditText inPwd = findViewById(R.id.editPassword);
         TextInputEditText inAge = findViewById(R.id.editAge);
         TextInputEditText inLoc = findViewById(R.id.editLocation);
@@ -44,8 +43,12 @@ public class ProfileSetting extends AppCompatActivity {
         TextInputEditText inDetail = findViewById(R.id.editSelfIntroduction);
 
         DaoUser daoUser = new DaoUser();
+
+        // Get the current user
         SharedPreferences sharedPreferences =this.getSharedPreferences("assignment2",MODE_PRIVATE);
         String username = sharedPreferences.getString("currentUser","");
+
+        // The default value will be based on user's former profile
         daoUser.getDatabaseReference().child("Users").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -68,6 +71,7 @@ public class ProfileSetting extends AppCompatActivity {
         });
 
 
+        // After user confirmed their setting,change data correspondingly
         MaterialButton btn_submit= findViewById(R.id.settingSubmit);
         btn_submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,6 +83,7 @@ public class ProfileSetting extends AppCompatActivity {
                 String nInterest = inInterest.getText().toString();
                 String nDetail = inDetail.getText().toString();
 
+                // Update the database
                 daoUser.getDatabaseReference().child("Users").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {

@@ -1,5 +1,7 @@
 package com.comp90018.assignment2.application.objects;
 
+// The "Event" object
+// All the related data of an event can be get or set
 public class Event {
     private String name;
     private Double latitude;
@@ -11,9 +13,9 @@ public class Event {
     public Event(){}
 
     public Event(String name, Double latitude,Double longitude){
-        this.name=name;
-        this.latitude=latitude;
-        this.longitude=longitude;
+        this.name = name;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public String getName() {

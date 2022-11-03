@@ -54,8 +54,10 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+// The fragment of the event map
 public class EventsFragment extends Fragment implements OnMapReadyCallback,GoogleMap.OnMyLocationButtonClickListener,GoogleMap.OnMyLocationClickListener, GoogleMap.OnMarkerClickListener {
 
+    // Permissions required
     final String[] PERMISSIONS = new String[]{
             Manifest.permission.ACCESS_COARSE_LOCATION,
             Manifest.permission.ACCESS_FINE_LOCATION,
@@ -68,7 +70,6 @@ public class EventsFragment extends Fragment implements OnMapReadyCallback,Googl
 
     private Location lastKnownLocation;
 
-//    private final LatLng defaultLocation = new LatLng(-33.8523341, 151.2106085);
     private final LatLng defaultLocation = new LatLng(-37.7963,144.9614);
     private static final int DEFAULT_ZOOM = 16;
 
@@ -82,13 +83,13 @@ public class EventsFragment extends Fragment implements OnMapReadyCallback,Googl
     DaoEvent daoEvent;
 
     ArrayList<Event> eventslist = new ArrayList<>();
-//    private Double longitude,latitude;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
 
+        // Acquire a last known location
         if (savedInstanceState != null){
             lastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION);
             cameraPosition = savedInstanceState.getParcelable(KEY_CAMERA_POSITION);
@@ -98,25 +99,27 @@ public class EventsFragment extends Fragment implements OnMapReadyCallback,Googl
                 new ViewModelProvider(this).get(EventsViewModel.class);
         View root = inflater.inflate(R.layout.fragment_events, container, false);
 
-
+        // Require the permissions
         doCheckPermission();
+        // using Firebase database
         daoEvent = new DaoEvent();
         // Initialize fused location
         client = LocationServices.getFusedLocationProviderClient(this.getActivity());
-
+        // Google map fragment
         mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        // Floating action button for create new events
         fab=root.findViewById(R.id.floating_action_button);
-
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getActivity(),"Clicked",Toast.LENGTH_SHORT).show();
+                // Pass the location data by bundle
                 Bundle bundle = new Bundle();
                 bundle.putDouble("Latitude",lastKnownLocation.getLatitude());
                 bundle.putDouble("Longitude",lastKnownLocation.getLongitude());
-
+                // Start the create event activity
                 Intent intent = new Intent(getActivity(),CreateEventActivity.class);
                 intent.putExtra("bundle",bundle);
                 startActivity(intent);
@@ -135,6 +138,8 @@ public class EventsFragment extends Fragment implements OnMapReadyCallback,Googl
         super.onSaveInstanceState(outState);
     }
 
+
+    // Initializing google map fragment
     @SuppressLint("MissingPermission")
     @Override
     public void onMapReady(GoogleMap googleMap){
@@ -148,6 +153,7 @@ public class EventsFragment extends Fragment implements OnMapReadyCallback,Googl
         addMarkers();
     }
 
+    // Enable my location function
     @SuppressLint("MissingPermission")
     private void enableMyLocation(){
         if (doCheckPermission()) {
@@ -155,30 +161,31 @@ public class EventsFragment extends Fragment implements OnMapReadyCallback,Googl
         }
     }
 
+    // No extra operation required
     @Override
     public void onMyLocationClick(@NonNull Location location) {
-//        Toast.makeText(getActivity(), "Current location:\n" + location, Toast.LENGTH_LONG)
-//                .show();
+
     }
 
-
+    // No extra operation required
     @Override
     public boolean onMyLocationButtonClick() {
-//        Toast.makeText(getActivity(), "MyLocation button clicked", Toast.LENGTH_SHORT)
-//                .show();
-        // Return false so that we don't consume the event and the default behavior still occurs
-        // (the camera animates to the user's current position).
         return false;
     }
 
+    // Show all the events available in the map via using markers
     private void addMarkers(){
+        // Connect to the firebase database
         daoEvent.get().addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                // Map all the events according their latitude and longitude
                 for (DataSnapshot eventData : snapshot.getChildren()){
                     Event event = eventData.getValue(Event.class);
                     eventslist.add(event);
                     LatLng loc=new LatLng(event.getLatitude(),event.getLongitude());
+
+                    // Offline events will be marked with azure while online events will be marked with red
                     if(event.getType().equals("Offline")){
                         map.addMarker(new MarkerOptions().position(loc).title(event.getName()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
                     }else {
@@ -193,14 +200,10 @@ public class EventsFragment extends Fragment implements OnMapReadyCallback,Googl
             }
         });
 
-//        LatLng location1 = new LatLng(-37.7963,144.9614);
-//        map.addMarker(new MarkerOptions().position(location1).title("Activity 1"));
-//        LatLng location2 = new LatLng(-37.7965,144.9622);
-//        Marker mak2 = map.addMarker(new MarkerOptions().position(location2).title("Activity 2"));
-//        mak2.hideInfoWindow();
     }
 
 
+    // Deal with marker click
     @Override
     public boolean onMarkerClick(@NonNull Marker marker) {
         String title = marker.getTitle();
@@ -210,6 +213,7 @@ public class EventsFragment extends Fragment implements OnMapReadyCallback,Googl
         Double longitude = 0.0;
         Double latitude = 0.0;
 
+        // Identify which event is clicked from the event list
         for (int i=0;i<eventslist.size();i++){
             Event cEvent = eventslist.get(i);
             if (cEvent.getName().equals(title)){
@@ -218,16 +222,19 @@ public class EventsFragment extends Fragment implements OnMapReadyCallback,Googl
                 type = cEvent.getType();
                 latitude = cEvent.getLatitude();
                 longitude = cEvent.getLongitude();
-//                Log.d("EVENT CLICK",date+" "+detail);
             }
         }
-//        Toast.makeText(getActivity(),"Activity:"+title,Toast.LENGTH_SHORT).show();
+
+        // Pop the event dialog
+        // The metadata of the event will be passed
         popEventDialog(title,date,detail,type,latitude,longitude);
         return false;
     }
 
+    // Pop the dialog to show the event
     private void popEventDialog(String title, String date, String detail, String type, Double latitude, Double longitude){
         EventDialog dialog = new EventDialog();
+        // Metadata passed by bundle
         Bundle bundle = new Bundle();
         bundle.putString(EventDialog.K_TITLE,title);
         bundle.putString(EventDialog.K_DATE,date);
@@ -239,6 +246,7 @@ public class EventsFragment extends Fragment implements OnMapReadyCallback,Googl
         dialog.show(getActivity().getSupportFragmentManager(),"TAG");
     }
 
+    // Method for check permission
     public boolean doCheckPermission(){
         PermissionsChecker mPermissionsChecker = new PermissionsChecker(this.getActivity());
         if (mPermissionsChecker.lacksPermissions(PERMISSIONS)){
@@ -248,6 +256,8 @@ public class EventsFragment extends Fragment implements OnMapReadyCallback,Googl
         return true;
     }
 
+
+    // Method for get current location
     @SuppressLint("MissingPermission")
     private void getCurrentLocation(){
         Task<Location> task = client.getLastLocation();
@@ -256,11 +266,11 @@ public class EventsFragment extends Fragment implements OnMapReadyCallback,Googl
             public void onComplete(@NonNull Task<Location> task) {
                 if (task.isSuccessful()){
                     lastKnownLocation = task.getResult();
+                    // Adjust camera position based on location
                     if (lastKnownLocation!=null){
                         LatLng latLng = new LatLng(lastKnownLocation.getLatitude(),lastKnownLocation.getLongitude());
                         map.moveCamera(CameraUpdateFactory.newLatLngZoom(
                                latLng,DEFAULT_ZOOM));
-//                        map.addMarker(new MarkerOptions().position(latLng).title("I'm here").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
                     }else {
                         Log.d("MAP","Current location is null. Using defaults.");
                         Log.e("MAP", "Exception: %s", task.getException());

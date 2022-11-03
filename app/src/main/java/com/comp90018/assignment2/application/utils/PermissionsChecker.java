@@ -6,6 +6,7 @@ import android.os.Build;
 
 import androidx.core.content.ContextCompat;
 
+// Check permissions
 public class PermissionsChecker {
     private final Context mContext;
 

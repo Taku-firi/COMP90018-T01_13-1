@@ -28,14 +28,12 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-
+// The fragment of user profile
 public class ProfileFragment extends Fragment {
     private ProfileViewModel profileViewModel;
     private MaterialTextView profileUserName,profileLocation,profileInterests,profileSelfIntroduction,profileEmail;
     private ImageView profileGender;
-    final static int REQUEST=10;
-    final static int RESULT_OK=1;
-    final static int RESULT_CANCELED=-1;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -53,9 +51,11 @@ public class ProfileFragment extends Fragment {
 
         DaoUser daoUser = new DaoUser();
 
+        // Get the current user
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("assignment2",MODE_PRIVATE);
         String username = sharedPreferences.getString("currentUser","");
 
+        // Retrieve the profile data of the user from firebase database
         daoUser.getDatabaseReference().child("Users").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -82,7 +82,7 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-
+        // Change profile
         Button button= root.findViewById(R.id.profileSettigs);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,7 +91,6 @@ public class ProfileFragment extends Fragment {
                 startActivity(intent);
             };
         });
-
 
 
 

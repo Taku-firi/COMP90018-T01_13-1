@@ -34,6 +34,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+// Activity for launch new event
 public class CreateEventActivity extends AppCompatActivity {
 
     private TextInputEditText eventDate;
@@ -43,6 +44,7 @@ public class CreateEventActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_event);
         getSupportActionBar().hide();
         Intent intent = getIntent();
+        // Get the passed geographic location
         Bundle bundle = intent.getBundleExtra("bundle");
 
         Double Lat = bundle.getDouble("Latitude");
@@ -55,6 +57,7 @@ public class CreateEventActivity extends AppCompatActivity {
         DaoEvent daoEvent= new DaoEvent();
         DaoUser daoUser = new DaoUser();
 
+        // Call out date selection box
         eventDate = findViewById(R.id.event_date);
         eventDate.setOnTouchListener(new OnTouchListener() {
             @Override
@@ -76,6 +79,8 @@ public class CreateEventActivity extends AppCompatActivity {
             }
         });
 
+        // While finishing entering the data, add the event to user's eventlist
+        // Also update the firebase database
         MaterialButton launchBtn = findViewById(R.id.launch_btn);
         launchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,6 +95,8 @@ public class CreateEventActivity extends AppCompatActivity {
                 cEvent.setDetail(detail);
                 cEvent.setType(category);
 
+                // Add this new event to the whole event list
+                // The event will then be shown on the map
                 daoEvent.add(cEvent).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
@@ -102,9 +109,11 @@ public class CreateEventActivity extends AppCompatActivity {
                     }
                 });
 
+                // Identify the current user
                 SharedPreferences sharedPreferences = getSharedPreferences("assignment2",MODE_PRIVATE);
                 String username = sharedPreferences.getString("currentUser","");
 
+                // Also add the new event to the user's event list
                 daoUser.getDatabaseReference().child("Users").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -122,9 +131,7 @@ public class CreateEventActivity extends AppCompatActivity {
                     }
                 });
 
-
                 Toast.makeText(CreateEventActivity.this,"launched: "+ name+date+category+detail,Toast.LENGTH_LONG).show();
-                Log.d("EVENT OBJECT",cEvent.getDate()+" "+cEvent.getDetail()+" "+cEvent.getName()+" "+cEvent.getType()+""+cEvent.getLatitude()+" "+cEvent.getLongitude());
                 finish();
             }
         });
@@ -134,6 +141,7 @@ public class CreateEventActivity extends AppCompatActivity {
     }
 
 
+    // Method to show the date pick dialog
     protected void showDatePickDlg(){
         Calendar calendar = Calendar.getInstance();
 
@@ -141,11 +149,12 @@ public class CreateEventActivity extends AppCompatActivity {
         final int mMonth = calendar.get(Calendar.MONTH);
         final int mDayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
         DatePickerDialog datePickerDialog = new DatePickerDialog(CreateEventActivity.this, new OnDateSetListener() {
+
+            // User can't choose a past date
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 if (year < mYear) {
                     view.updateDate(mYear, mMonth, mDayOfMonth);
-                    //        Toast.makeText(getActivity(),"Activity:"+title,Toast.LENGTH_SHORT).show();
                     Toast.makeText(CreateEventActivity.this,"Past year",Toast.LENGTH_SHORT).show();
 
                     return;

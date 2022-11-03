@@ -23,6 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+// Activity for new users to register
 public class RegisterActivity extends AppCompatActivity {
 
 
@@ -41,29 +42,34 @@ public class RegisterActivity extends AppCompatActivity {
 
         DaoUser daoUser = new DaoUser();
 
+        // After entering their data, check and create the new user
         reg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Load the metadata entered
                 String username = etUsername.getText().toString();
                 String email = etEmail.getText().toString();
                 String password= etPassword.getText().toString();
                 String confirm = etConfirm.getText().toString();
 
+                // Check if all the fields are filled
                 if (username.isEmpty()|| email.isEmpty()|| password.isEmpty()|| confirm.isEmpty()){
                     Toast.makeText(RegisterActivity.this,"Please fill all fields",Toast.LENGTH_SHORT).show();
                 }
+                // Check if the passwords entered twice are the same
                 else if (!password.equals(confirm)){
                     Toast.makeText(RegisterActivity.this,"Passwords are not matching",Toast.LENGTH_SHORT).show();
 
                 }
-
                 else{
                     User cUser = new User(username,email);
                     cUser.setPassword(password);
 
+                    // Connect to the database, and add this new user
                     daoUser.getDatabaseReference().child("Users").addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            // Check if the username already exists
                             if (snapshot.hasChild(username)){
                                 Toast.makeText(RegisterActivity.this,"This user already exist",Toast.LENGTH_SHORT).show();
                             }else {
@@ -98,6 +104,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
+        // Users can go the the login page if they already have accounts
         haveAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

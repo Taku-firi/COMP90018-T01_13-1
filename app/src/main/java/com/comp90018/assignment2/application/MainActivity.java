@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.layout);
         getSupportActionBar().hide();
         BottomNavigationView navView = findViewById(R.id.bottom_navigation);
-
+        // Set up all the components for bottom navigation
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(navView.getMenu()).build();
         NavController navController = Navigation.findNavController(this,R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this,navController,appBarConfiguration);

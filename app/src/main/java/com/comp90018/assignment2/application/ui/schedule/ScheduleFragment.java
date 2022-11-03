@@ -27,7 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-
+// The fragment of the event map
 public class ScheduleFragment extends Fragment {
     private ScheduleViewModel scheduleViewModel;
 
@@ -45,36 +45,39 @@ public class ScheduleFragment extends Fragment {
                 new ViewModelProvider(this).get(ScheduleViewModel.class);
         View root = inflater.inflate(R.layout.fragment_schedule, container, false);
 
+        // Initialize components
         swipeRefreshLayout = root.findViewById(R.id.swip);
         recyclerView = root.findViewById(R.id.rv);
 
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(manager);
+
         adapter = new ScheduleAdapter(getContext());
         recyclerView.setAdapter(adapter);
         daoEvent = new DaoEvent();
         daoUser = new DaoUser();
         loadEvents();
 
-
-
         return root;
     }
 
+    // Method for load user's events
     private void loadEvents() {
         swipeRefreshLayout.setRefreshing(true);
-        
+
+        // Identify the current user
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("assignment2",MODE_PRIVATE);
         String username = sharedPreferences.getString("currentUser","");
 
+        // Require all the events the user joined in
         daoUser.getDatabaseReference().child("Users").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.hasChild(username)){
                     User cUser = snapshot.child(username).getValue(User.class);
                     ArrayList<Event> myevents = cUser.getEvents();
-                    adapter .setItems(myevents);
+                    adapter.setItems(myevents);
                     adapter.notifyDataSetChanged();
                     isLoading = false;
                     swipeRefreshLayout.setRefreshing(false);
@@ -87,24 +90,6 @@ public class ScheduleFragment extends Fragment {
 
             }
         });
-//        daoEvent.get(key).addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                ArrayList<Event> eventslist = new ArrayList<>();
-//                for (DataSnapshot data : snapshot.getChildren()){
-//                    Event event = data.getValue(Event.class);
-//                    eventslist.add(event);
-//                }
-//                adapter.setItems(eventslist);
-//                adapter.notifyDataSetChanged();
-//                isLoading = false;
-//                swipeRefreshLayout.setRefreshing(false);
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
+
     }
 }

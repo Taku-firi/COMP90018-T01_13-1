@@ -32,6 +32,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+// The dialog for showing information about an event
 public class EventDialog extends DialogFragment {
     public static final String K_TITLE = "k_title";
     public static final String K_DATE = "k_date";
@@ -48,6 +49,7 @@ public class EventDialog extends DialogFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+        // Load the data passed
         Bundle in = getArguments();
         if (in!=null){
             title= in.getString(K_TITLE);
@@ -56,6 +58,7 @@ public class EventDialog extends DialogFragment {
             type = in.getString(K_TYPE);
             latitude = in.getDouble(K_LAT);
             longtitude = in.getDouble(K_LONG);
+            // Instantiate the event object
             event = new Event(title,latitude,longtitude);
             event.setDate(date);
             event.setDetail(detail);
@@ -72,6 +75,7 @@ public class EventDialog extends DialogFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState){
         super.onViewCreated(view, savedInstanceState);
+        // Show the metadata of the event
         TextView titleTv = view.findViewById(R.id.dialog_title);
         TextView dateTv = view.findViewById(R.id.dialog_date);
         TextView detailTv = view.findViewById(R.id.dialog_detail);
@@ -87,6 +91,7 @@ public class EventDialog extends DialogFragment {
         MaterialButton btnClose = view.findViewById(R.id.dialog_btn_close);
         MaterialButton btnJoin = view.findViewById(R.id.dialog_btn_join);
 
+        // If button "close" clicked
         btnClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,15 +99,19 @@ public class EventDialog extends DialogFragment {
             }
         });
 
+        // If button "join" clicked, add the event to user's schedule
         btnJoin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 DaoUser daoUser = new DaoUser();
 
+                // Retrieve the current user
                 SharedPreferences sharedPreferences = getContext().getSharedPreferences("assignment2",MODE_PRIVATE);
                 String username = sharedPreferences.getString("currentUser","");
 
+                // Add the event into user's event list
+                // The database will be updated meanwhile
                 daoUser.getDatabaseReference().child("Users").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -110,8 +119,8 @@ public class EventDialog extends DialogFragment {
                             User cUser = snapshot.child(username).getValue(User.class);
                             ArrayList<Event> myevents = cUser.getEvents();
 
+                            // Check if the user has already joined the event
                             boolean exist =false;
-
                             for (int i=0;i<myevents.size();i++){
                                 Event cEvent =myevents.get(i);
                                 if (cEvent.getName().equals(title)){
@@ -119,6 +128,7 @@ public class EventDialog extends DialogFragment {
                                 }
                             }
 
+                            // If hasn't joined yet, then join the event
                             if (!exist){
                                 myevents.add(event);
                             }

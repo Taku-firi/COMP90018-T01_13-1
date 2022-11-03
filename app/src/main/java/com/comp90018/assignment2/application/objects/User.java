@@ -2,6 +2,8 @@ package com.comp90018.assignment2.application.objects;
 
 import java.util.ArrayList;
 
+// The "User" object
+// All the related data of a user can be get or set
 public class User {
 
     private String password;
@@ -12,6 +14,7 @@ public class User {
     private String location= "location";
     private String interest = "interest";
     private String detail = "self intro";
+    // Store all the events the user joined
     private ArrayList<Event> events = new ArrayList<>();
 
     public User(){}

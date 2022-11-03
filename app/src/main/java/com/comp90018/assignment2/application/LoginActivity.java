@@ -19,6 +19,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
+// Activity for login
 public class LoginActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -35,6 +36,8 @@ public class LoginActivity extends AppCompatActivity{
 
         MaterialButton loginBtn = (MaterialButton) findViewById(R.id.loginBtn);
         MaterialButton registerBtn = (MaterialButton) findViewById(R.id.registerBtn);
+
+        // If user click the register button, move to the register activity
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -42,14 +45,14 @@ public class LoginActivity extends AppCompatActivity{
             }
         });
 
-        // admin and admin
+        // If user click the login button, check if the data input is valid
         loginBtn.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View view) {
                 String user = tv_user.getText().toString();
                 String password = tv_password.getText().toString();
 
+                // If user didn't fill all the fields
                 if (user.isEmpty()||password.isEmpty()){
                     Toast.makeText(LoginActivity.this,"Please fill all fields",Toast.LENGTH_SHORT).show();
                 }
@@ -57,15 +60,18 @@ public class LoginActivity extends AppCompatActivity{
                     daoUser.getDatabaseReference().child("Users").addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            // if e-mail exists in the database
+                            // If this user exists in the database
                             if (snapshot.hasChild(user)){
                                 String getPass = snapshot.child(user).child("password").getValue(String.class);
-
+                                // Check whether the password is valid
                                 if (getPass.equals(password)){
                                     Toast.makeText(LoginActivity.this, "Successfully Logged in", Toast.LENGTH_SHORT).show();
+                                    // Record the current user with shared preferences
+                                    // The application can latter retrieve the current user
                                     SharedPreferences.Editor editor = getSharedPreferences("assignment2",MODE_PRIVATE).edit();
                                     editor.putString("currentUser",user);
                                     editor.apply();
+                                    // Start the main activity after logged in
                                     startActivity(new Intent(LoginActivity.this,MainActivity.class));
                                 }
                                 else {

@@ -16,6 +16,8 @@ import com.comp90018.assignment2.application.objects.Event;
 
 import java.util.ArrayList;
 
+
+// Adapter for items of the schedule page
 public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
     ArrayList<Event> list= new ArrayList<>();
@@ -29,6 +31,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
 
+    // Set the corresponding view holder
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -36,6 +39,8 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         return new EventVH(view);
     }
 
+    // Map corresponding data to UI
+    // All the events the user joins are listed
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         EventVH vh = (EventVH)holder;
@@ -46,6 +51,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         if (event.getType().equals("Offline")){
             vh.image.setImageResource(R.drawable.bg_offline);
         }
+        // While user click on a certain event, start the event detail activity
         vh.card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

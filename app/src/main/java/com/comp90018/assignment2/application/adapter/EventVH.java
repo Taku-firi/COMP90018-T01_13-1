@@ -9,6 +9,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.comp90018.assignment2.R;
 import com.google.android.material.textview.MaterialTextView;
 
+
+// ViewHolder of each event
+// Dealing with metadata
 public class EventVH extends RecyclerView.ViewHolder {
     public MaterialTextView tvName,tvDate,tvType;
     public View card;

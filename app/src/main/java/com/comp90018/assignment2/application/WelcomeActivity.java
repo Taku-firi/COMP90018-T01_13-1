@@ -7,9 +7,10 @@ import android.os.Looper;
 
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.comp90018.assignment2.R;
 
+
+// A welcome activity with logo and greeting
 public class WelcomeActivity extends AppCompatActivity {
     private static final String TAG = "WelcomeActivity";
     private Handler handler;
