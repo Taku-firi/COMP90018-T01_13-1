@@ -31,6 +31,7 @@
         android:layout_marginBottom="10dp"
         android:drawableLeft="@drawable/ic_baseline_person_outline_24"
         android:drawablePadding="20dp"
+        android:theme="@style/MyEditText"
         android:hint="Username"
         android:padding="20dp"
         android:textColor="@color/black"
@@ -47,6 +48,7 @@
         android:layout_marginBottom="10dp"
         android:drawableLeft="@drawable/ic_baseline_email_24"
         android:drawablePadding="20dp"
+        android:theme="@style/MyEditText"
         android:hint="Email"
         android:inputType="textEmailAddress"
         android:padding="20dp"
@@ -64,6 +66,7 @@
         android:layout_marginBottom="10dp"
         android:drawableLeft="@drawable/ic_baseline_password_24"
         android:drawablePadding="20dp"
+        android:theme="@style/MyEditText"
         android:hint="Password"
         android:inputType="textPassword"
         android:padding="20dp"
@@ -76,6 +79,7 @@
         android:id="@+id/confirmPassword"
         android:layout_below="@+id/password"
         android:hint="Confirm Password"
+        android:theme="@style/MyEditText"
         android:textColorHint="@color/black"
         android:textColor="@color/black"
         android:layout_margin="10dp"
@@ -111,19 +115,6 @@
         android:text="Already have account?"
         android:textColor="@color/black" />
 
-<!--    <com.google.android.material.textfield.TextInputEditText-->
-<!--        android:id="@+id/haveAccount"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_below="@id/registerBtn"-->
-<!--        android:layout_centerHorizontal="true"-->
-<!--        android:layout_marginStart="10dp"-->
-<!--        android:layout_marginTop="2dp"-->
-<!--        android:layout_marginEnd="10dp"-->
-<!--        android:layout_marginBottom="10dp"-->
-<!--        android:minHeight="4dp"-->
-<!--        android:text="Already have account?"-->
-<!--        android:textColor="@color/black" />-->
 
 
 </RelativeLayout>

@@ -8,7 +8,7 @@ android:gravity="center"
 android:orientation="vertical"
 tools:context=".application.EventDetailActivity">
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:layout_width="wrap_content"
         android:layout_height="70dp"
         android:text="RUNNING"
@@ -25,38 +25,46 @@ tools:context=".application.EventDetailActivity">
 
         <TableRow>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Aim:"
                 android:textSize="25dp"
                 android:textStyle="bold"
-                android:textColor="#78B038"
+                android:textColor="@color/black"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <EditText
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:inputType="phone" />
+                android:textSize="25dp"
+                android:text="10000"
+                android:textColor="#6bbc50"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:inputType="number" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Steps"
                 android:textSize="25dp"
                 android:textStyle="bold|italic"
-                android:textColor="#78B038"
+                android:textColor="@color/black"
+                android:layout_marginBottom="100dp"
                 app:layout_constraintTop_toTopOf="parent" />
 
         </TableRow>
     </TableLayout>
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tv_step"
         android:textSize="35dp"
+        android:gravity="center"
         android:textColor="#67ACA9"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginBottom="200dp"/>
 
 </LinearLayout>

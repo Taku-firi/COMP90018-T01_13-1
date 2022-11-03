@@ -1,8 +1,10 @@
 <resources>
-    <string name="app_name">Assignment2</string>
+    <string name="app_name">FlexFitness</string>
     
     <string name="title_events">Events</string>
     <string name="title_schedule">Schedule</string>
     <string name="title_profile">Profile</string>
+
+    <string name="welcomepage_text">Welcome to FlexFitness</string>
 
 </resources>

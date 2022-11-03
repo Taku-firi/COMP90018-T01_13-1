@@ -22,6 +22,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.comp90018.assignment2.R;
+import com.google.android.material.textview.MaterialTextView;
 
 
 public class EventDetailActivity extends AppCompatActivity implements SensorEventListener {
@@ -35,7 +36,7 @@ public class EventDetailActivity extends AppCompatActivity implements SensorEven
     Sensor stepDetector;
 
     float mSteps = 0;
-    TextView tv;
+    MaterialTextView tv;
 
 
     @Override
@@ -56,7 +57,7 @@ public class EventDetailActivity extends AppCompatActivity implements SensorEven
                 ActivityCompat.requestPermissions(this, ACTIVITY_RECOGNITION_PERMISSION, 321);
             }
         }
-        tv = (TextView)findViewById(R.id.tv_step);
+        tv = findViewById(R.id.tv_step);
         // Get pedometer sensor data
 
         stepDetector = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
@@ -105,7 +106,7 @@ public class EventDetailActivity extends AppCompatActivity implements SensorEven
             mSteps++;
         }
         Log.i(TAG,"Detected step changes:"+event.values[0]);
-        tv.setText("You have taken"+String.valueOf((int)mSteps)+"Steps");
+        tv.setText("You have taken \n"+String.valueOf((int)mSteps)+" \nSteps");
     }
 
     @Override

@@ -30,7 +30,7 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".application.LoginActivity"
+            android:name=".application.WelcomeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -39,6 +39,7 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".application.LoginActivity"/>
         <activity android:name=".application.MainActivity"/>
         <activity android:name=".application.RegisterActivity"/>
         <activity android:name=".application.CreateEventActivity" />
